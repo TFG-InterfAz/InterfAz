@@ -1,6 +1,6 @@
 # InterfAz
 
-Welcome to the **InterfAz** project! This web application utilizes AI models, such as LLaMA or ChatGPT, to generate React components dynamically based on user input. The backend is powered by Django, ensuring a robust and scalable foundation for the application.
+Welcome to the **InterfAz** project! This web application utilizes AI models, such as Ollama or ChatGPT, to generate React components dynamically based on user input. The backend is powered by Django, ensuring a robust and scalable foundation for the application.
 
 ## Features
 
