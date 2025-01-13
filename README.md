@@ -30,6 +30,30 @@ Ensure you have the following installed:
 - Node.js (>= 14.x)
 - npm
 - PostgreSQL (for Django backend)
+  
+### Configurate the DataBase
+Enter in postgresql's bash:
+
+`cd "C:\Program Files\PostgreSQL\17\bin"`
+`psql -U postgres`
+
+Create the database and the user. Introduce the following commands:
+
+```
+CREATE DATABASE interfaz;
+CREATE USER interfaz_user WITH PASSWORD 'interfaz_password';
+GRANT ALL PRIVILEGES ON DATABASE interfaz TO interfaz_user;
+\c interfaz;
+GRANT USAGE ON SCHEMA public TO interfaz_user;
+GRANT CREATE ON SCHEMA public TO interfaz_user;
+GRANT ALL PRIVILEGES ON SCHEMA public TO interfaz_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON TABLES TO interfaz_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON SEQUENCES TO interfaz_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON FUNCTIONS TO interfaz_user;
+
+\q
+```
+
 
 ### Backend Setup
 1. Clone the repository:
