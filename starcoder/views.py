@@ -50,8 +50,10 @@ def prompt_view(request):
             try:
                 # Generate text
                 inputs = TOKENIZER(prompt, return_tensors="pt")
-                outputs = MODEL.generate(**inputs, max_length=50)
+                outputs = MODEL.generate(**inputs, max_length=1000)
                 response = TOKENIZER.decode(outputs[0], skip_special_tokens=True)
+                print("AI Response:", response)  # Debugging: Check the full response
+
             except Exception as e:
                 response = f"Error generating response: {e}"
     else:
