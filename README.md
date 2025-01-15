@@ -77,6 +77,13 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON FUNCTIONS TO i
    ```bash
    python manage.py runserver
    ```
+#### Starcoder Setup
+1. Log in using a token:
+   ```bash
+   huggingface-cli login
+   ```
+   token = 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
+
 
 ### Frontend Setup
 1. Navigate to the `frontend` directory:
