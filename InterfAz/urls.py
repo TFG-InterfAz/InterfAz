@@ -17,9 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from starcoder import views
+from .views import home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("ask/", views.prompt_view, name="prompt_view"),
+    path('prompts/', views.show_prompts, name='show_prompts'),
+    path('', home, name='home'),
+
 
 ]

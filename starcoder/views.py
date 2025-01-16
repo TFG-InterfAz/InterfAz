@@ -2,10 +2,10 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from accelerate import infer_auto_device_map
-from .form import PromptForm
-
+from starcoder.form import PromptForm
+from starcoder.models import Prompt
 # Model checkpoint
-checkpoint = "gpt2"
+checkpoint = "gpt2-medium"  # Use a capable model; upgrade if possible.
 
 # Globals for the model and tokenizer
 MODEL = None
@@ -18,11 +18,11 @@ def load_model_and_tokenizer():
         # Initialize tokenizer
         TOKENIZER = AutoTokenizer.from_pretrained(checkpoint)
 
-        # Generate a device map for disk offloading
+        # Generate a device map for memory optimization
         model_temp = AutoModelForCausalLM.from_pretrained(checkpoint, low_cpu_mem_usage=True)
         device_map = infer_auto_device_map(
             model_temp,
-            max_memory={"cpu": "6GB"}  # Adjust memory as needed for your system
+            max_memory={"cpu": "6GB"}  # Adjust based on your system memory
         )
 
         # Load the model with the device map
@@ -32,7 +32,7 @@ def load_model_and_tokenizer():
             low_cpu_mem_usage=True
         )
 
-        print("Model and tokenizer loaded successfully with disk offloading.")
+        print("Model and tokenizer loaded successfully.")
     except Exception as e:
         print("Error loading model or tokenizer:", e)
         TOKENIZER, MODEL = None, None
@@ -47,12 +47,31 @@ def prompt_view(request):
         form = PromptForm(request.POST)
         if form.is_valid():
             prompt = form.cleaned_data['description']
+            prompt_entry = Prompt.objects.create(request=prompt)
             try:
-                # Generate text
+                # Generate text with better generation parameters
                 inputs = TOKENIZER(prompt, return_tensors="pt")
-                outputs = MODEL.generate(**inputs, max_length=1000)
-                response = TOKENIZER.decode(outputs[0], skip_special_tokens=True)
-                print("AI Response:", response)  # Debugging: Check the full response
+                outputs = MODEL.generate(
+                    inputs.input_ids,
+                    max_length=300,  # Limit the output length
+                    temperature=0.7,  # Balance randomness and determinism
+                    top_k=50,         # Top-k sampling for variety
+                    top_p=0.9,        # Nucleus sampling for quality
+                    repetition_penalty=1.2  # Penalize repetitive content
+                )
+                response_raw = TOKENIZER.decode(outputs[0], skip_special_tokens=True)
+
+                # Post-process the response to ensure valid HTML
+                lines = response_raw.splitlines()
+                cleaned_lines = []
+                for line in lines:
+                    cleaned_lines.append(line)
+                    if line.strip() == "</html>":  # Stop at the closing HTML tag
+                        break
+                response = "\n".join(cleaned_lines)
+
+                prompt_entry.response = response
+                prompt_entry.save()
 
             except Exception as e:
                 response = f"Error generating response: {e}"
@@ -60,3 +79,9 @@ def prompt_view(request):
         form = PromptForm()
 
     return render(request, "generate_code.html", {"form": form, "response": response})
+
+
+def show_prompts(request):
+    prompts = Prompt.objects.all()
+
+    return render(request, "show_all_promps.html", {"data": prompts})
