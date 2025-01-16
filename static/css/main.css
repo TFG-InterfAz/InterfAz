@@ -45,9 +45,6 @@
     color: #666;
 }
 
-/* Center empty message */
-.text-center {
-    text-align: center;
-    color: #666;
-    margin-top: 20px;
+.navbar {
+    margin-bottom: 20px;
 }
