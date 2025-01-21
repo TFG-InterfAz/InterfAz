@@ -85,7 +85,7 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON FUNCTIONS TO i
    ```
    token = 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
 
-#### 2.2 Crear entorno virtual, instalar requisitos, ejecutar
+#### 2.2 Create virtual environment, install requirements, execute
 Usando anaconda se aisla el entorno de desarrollo y gestionan dependencias.
 
 Abrir anaconda prompt y ejecutar:
@@ -93,14 +93,14 @@ Abrir anaconda prompt y ejecutar:
 `conda create -n interfaz python=3.10.5`
 `conda env list`
 
-En vscode, CTRL+Shift+P y seleccionar: “Python: Select Interpreter”
-Elegir el entorno interfaz
-Abrir una nueva terminal cmd en el workspace y comprobar que usa safeport. Ejecutar:
+In vscode, CTRL+Shift+P and select: “Python: Select Interpreter”
+Choose the new interface
+Open a new terminal cmd in the workspace and check the use of interfaz. Execute:
 `pip install -r requirements.txt`
 `python manage.py migrate`
 `python manage.py runserver`
 
-Al navegar a `http://127.0.0.1:8000/`, se podrá comprobar que se ha iniciado el proyecto correctamente.
+Navigating in `http://127.0.0.1:8000/`, you could check the web app.
 
 
 ### 3 Frontend Setup
