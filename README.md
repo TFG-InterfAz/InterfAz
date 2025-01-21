@@ -90,7 +90,7 @@ Usando anaconda se aisla el entorno de desarrollo y gestionan dependencias.
 
 Abrir anaconda prompt y ejecutar:
 
-`conda create -n interfaz python=3.10.5`
+`conda create -n interfaz python=3.10.16`
 `conda env list`
 
 In vscode, CTRL+Shift+P and select: “Python: Select Interpreter”
