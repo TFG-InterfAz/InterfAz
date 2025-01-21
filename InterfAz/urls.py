@@ -26,6 +26,7 @@ urlpatterns = [
     path('prompts/', views.show_prompts, name='show_prompts'),
     path('', home, name='home'),
     path('ask/ollama/', v2.ollama, name='ollama'),
+    path('prompts/ollama', v2.prompts_list, name='prompts_list'),
 
 
 ]
