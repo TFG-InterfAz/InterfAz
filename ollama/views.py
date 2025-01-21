@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Prompt
+from InterfAz.models import Prompt
 from .form import PromptForm
 from .ollama_service import get_ollama_response
 
