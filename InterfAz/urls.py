@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from starcoder import views
+from ollama import views as v2
 from .views import home
 
 urlpatterns = [
@@ -24,6 +25,7 @@ urlpatterns = [
     path("ask/", views.prompt_view, name="prompt_view"),
     path('prompts/', views.show_prompts, name='show_prompts'),
     path('', home, name='home'),
+    path('ask/ollama/', v2.ollama, name='ollama'),
 
 
 ]
