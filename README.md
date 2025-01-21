@@ -31,7 +31,7 @@ Ensure you have the following installed:
 - npm
 - PostgreSQL (for Django backend)
   
-### Configurate the DataBase
+### 1 Configurate the DataBase
 Enter in postgresql's bash:
 
 `cd "C:\Program Files\PostgreSQL\17\bin"`
@@ -55,7 +55,7 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON FUNCTIONS TO i
 ```
 
 
-### Backend Setup
+### 2 Backend Setup
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/ai-react-generator.git](https://github.com/TFG-InterfAz/InterfAz.git
@@ -78,15 +78,32 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON FUNCTIONS TO i
    ```bash
    python manage.py runserver
    ```
-#### Starcoder Setup
+#### 2.1 Starcoder Setup
 1. Log in using a token:
    ```bash
    huggingface-cli login
    ```
    token = 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
 
+#### 2.2 Crear entorno virtual, instalar requisitos, ejecutar
+Usando anaconda se aisla el entorno de desarrollo y gestionan dependencias.
 
-### Frontend Setup
+Abrir anaconda prompt y ejecutar:
+
+`conda create -n interfaz python=3.10.5`
+`conda env list`
+
+En vscode, CTRL+Shift+P y seleccionar: “Python: Select Interpreter”
+Elegir el entorno interfaz
+Abrir una nueva terminal cmd en el workspace y comprobar que usa safeport. Ejecutar:
+`pip install -r requirements.txt`
+`python manage.py migrate`
+`python manage.py runserver`
+
+Al navegar a `http://127.0.0.1:8000/`, se podrá comprobar que se ha iniciado el proyecto correctamente.
+
+
+### 3 Frontend Setup
 1. Navigate to the `frontend` directory:
    ```bash
    cd frontend
