@@ -96,6 +96,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+OLLAMA_API_URL = 'http://localhost:11434/api/generate'  # Ollama por defecto
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
