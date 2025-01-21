@@ -63,7 +63,8 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON FUNCTIONS TO i
 2. Set up a virtual environment:
    ```bash
    python -m venv venv
-   source venv/bin/activate # On Windows: venv\Scripts\activate
+   source venv/bin/activate
+   # On Windows: venv\Scripts\activate
    ```
 3. Install dependencies:
    ```bash
