@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from accelerate import infer_auto_device_map
 from .form import PromptForm
-from .models import Prompt
+from InterfAz.models import Prompt
 
 # Model checkpoint
 checkpoint = "gpt2-medium"  # Use a capable model; upgrade if possible.
@@ -47,7 +47,7 @@ def prompt_view(request):
     if request.method == "POST":
         form = PromptForm(request.POST)
         if form.is_valid():
-            prompt_text = form.cleaned_data['description']
+            prompt_text = form.cleaned_data['request']
 
             # Create a new prompt instance with Starcoder as the AI
             prompt_instance = Prompt.objects.create(

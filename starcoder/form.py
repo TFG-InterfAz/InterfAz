@@ -1,11 +1,10 @@
 from django import forms
+from InterfAz.models import Prompt
 
-class PromptForm(forms.Form):
-    description = forms.CharField(
-        label="Write here your request",
-        max_length=255,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Enter your prompt here'
-        })
-    )
+class PromptForm(forms.ModelForm):
+    class Meta:
+        model = Prompt
+        fields = ['request']  
+        widgets = {
+            'request': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
