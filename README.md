@@ -30,6 +30,7 @@ Ensure you have the following installed:
 - Node.js (>= 14.x)
 - npm
 - PostgreSQL (for Django backend)
+- Ollama: https://ollama.com/
   
 ### 1 Configurate the DataBase
 Enter in postgresql's bash:
