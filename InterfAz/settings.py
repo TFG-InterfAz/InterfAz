@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'InterfAz',
     'trial',
     'starcoder',
+    'ollama',
 ]
 
 MIDDLEWARE = [
@@ -80,7 +81,7 @@ WSGI_APPLICATION = 'InterfAz.wsgi.application'
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'interfaz_db',
+        'NAME': 'interfaz',
         'USER': 'interfaz_user',
         'PASSWORD': 'interfaz_password',
         'HOST': 'localhost',
@@ -95,6 +96,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+OLLAMA_API_URL = 'http://localhost:11434/api/generate'  # Ollama por defecto
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
