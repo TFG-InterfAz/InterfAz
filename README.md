@@ -86,10 +86,16 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON FUNCTIONS TO i
    ```
    token = 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
 
-#### 2.2 Create virtual environment, install requirements, execute
-Usando anaconda se aisla el entorno de desarrollo y gestionan dependencias.
+#### 2.2 Ollama Setup
+1. Go to Ollama: https://ollama.com/ and download it
+2. Install Ollama
+3. Open any terminal and run:
+`ollama pull llama2`
 
-Abrir anaconda prompt y ejecutar:
+#### 2.2 Create virtual environment, install requirements, execute
+Using anaconda we isolate the development environment and handle dependencies.
+
+Open anaconda prompt and run:
 
 `conda create -n interfaz python=3.10.16`
 `conda env list`
