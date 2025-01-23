@@ -31,6 +31,10 @@ Ensure you have the following installed:
 - npm
 - PostgreSQL (for Django backend)
 - Ollama: https://ollama.com/
+
+### Hardware
+Ensure your PC isn't a patata
+- 16 GB RAM or Graphics Card
   
 ### 1 Configurate the DataBase
 Enter in postgresql's bash:
