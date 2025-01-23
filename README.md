@@ -90,22 +90,28 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON FUNCTIONS TO i
 1. Go to Ollama: https://ollama.com/ and download it
 2. Install Ollama
 3. Open any terminal and run:
-`ollama pull llama2`
+```bash
+ollama pull llama2
+```
 
 #### 2.2 Create virtual environment, install requirements, execute
 Using anaconda we isolate the development environment and handle dependencies.
 
 Open anaconda prompt and run:
 
-`conda create -n interfaz python=3.10.16`
-`conda env list`
+```bash
+conda create -n interfaz python=3.10.16
+conda env list
+```
 
 In vscode, CTRL+Shift+P and select: “Python: Select Interpreter”
 Choose the new interface
 Open a new terminal cmd in the workspace and check the use of interfaz. Execute:
-`pip install -r requirements.txt`
-`python manage.py migrate`
-`python manage.py runserver`
+```bash
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
 
 Navigating in `http://127.0.0.1:8000/`, you could check the web app.
 
