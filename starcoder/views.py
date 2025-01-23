@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from accelerate import infer_auto_device_map
-from starcoder.form import PromptForm
-from starcoder.models import Prompt
+from .form import PromptForm
+from InterfAz.models import Prompt
+
 # Model checkpoint
 checkpoint = "gpt2-medium"  # Use a capable model; upgrade if possible.
 
@@ -46,22 +47,28 @@ def prompt_view(request):
     if request.method == "POST":
         form = PromptForm(request.POST)
         if form.is_valid():
-            prompt = form.cleaned_data['description']
-            prompt_entry = Prompt.objects.create(request=prompt)
+            prompt_text = form.cleaned_data['request']
+
+            # Create a new prompt instance with Starcoder as the AI
+            prompt_instance = Prompt.objects.create(
+                request=prompt_text,
+                ai=Prompt.AI.STARCODER  # Automatically assign the AI type
+            )
+
             try:
-                # Generate text with better generation parameters
-                inputs = TOKENIZER(prompt, return_tensors="pt")
+                # Generate response using the model
+                inputs = TOKENIZER(prompt_text, return_tensors="pt")
                 outputs = MODEL.generate(
                     inputs.input_ids,
-                    max_length=300,  # Limit the output length
-                    temperature=0.7,  # Balance randomness and determinism
-                    top_k=50,         # Top-k sampling for variety
-                    top_p=0.9,        # Nucleus sampling for quality
-                    repetition_penalty=1.2  # Penalize repetitive content
+                    max_length=300,
+                    temperature=0.7,
+                    top_k=50,
+                    top_p=0.9,
+                    repetition_penalty=1.2
                 )
                 response_raw = TOKENIZER.decode(outputs[0], skip_special_tokens=True)
 
-                # Post-process the response to ensure valid HTML
+                # Post-process the response to ensure clean HTML output
                 lines = response_raw.splitlines()
                 cleaned_lines = []
                 for line in lines:
@@ -70,8 +77,9 @@ def prompt_view(request):
                         break
                 response = "\n".join(cleaned_lines)
 
-                prompt_entry.response = response
-                prompt_entry.save()
+                # Save the response in the database
+                prompt_instance.response = response
+                prompt_instance.save()
 
             except Exception as e:
                 response = f"Error generating response: {e}"
@@ -82,6 +90,5 @@ def prompt_view(request):
 
 
 def show_prompts(request):
-    prompts = Prompt.objects.all()
-
+    prompts = Prompt.objects.filter(ai=Prompt.AI.STARCODER)
     return render(request, "show_all_promps.html", {"data": prompts})
