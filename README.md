@@ -33,8 +33,21 @@ Ensure you have the following installed:
 - Ollama: https://ollama.com/
 
 ### Hardware
-Ensure your PC isn't a patata
-- 16 GB RAM or Graphics Card
+Ensure your PC can handle llama2:
+- GPU (Recommended for Faster Inference):
+ - Minimum: NVIDIA GTX 1660 Ti (6GB VRAM) with 4-bit quantization
+ - Recommended: RTX 3060 (12GB VRAM) or better
+- CPU (If running without GPU):
+ - Minimum: 6-core CPU (e.g., Intel Core i7-10750H or better)
+ - Recommended: 8-core or higher (e.g., AMD Ryzen 7 5800H)
+- RAM:
+ - Minimum: 16GB
+ - Recommended: 32GB for better performance
+- Storage:
+ - Minimum: 30GB SSD (for model weights)
+ - Recommended: NVMe SSD for faster loading
+- OS:
+ - Linux or Windows 10/11 with WSL (if needed for compatibility)
   
 ### 1 Configurate the DataBase
 Enter in postgresql's bash:
