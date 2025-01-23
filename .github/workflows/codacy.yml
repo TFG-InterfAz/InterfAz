@@ -24,18 +24,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Execute Codacy Analysis CLI and generate a SARIF output with security issues
+      # Run Codacy Analysis CLI and generate a SARIF output with security issues
       - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@v3
+        uses: codacy/codacy-analysis-cli-action@v2  # Use v2 instead of v3
         with:
-          # Get your project token from your Codacy repository settings
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           verbose: true
           output: results.sarif
           format: sarif
-          # Adjust severity of non-security issues
           gh-code-scanning-compat: true
-          # Force 0 exit code to allow SARIF file generation
           max-allowed-issues: 2147483647
 
       # Save the SARIF report as an artifact for later download
