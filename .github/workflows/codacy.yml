@@ -1,4 +1,4 @@
-name: Codacy Security Scan
+name: Codacy Scan
 
 on:
   push:
@@ -22,11 +22,11 @@ jobs:
     steps:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Run Codacy Analysis CLI and generate a SARIF output with security issues
       - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@v2  # Use v2 instead of v3
+        uses: codacy/codacy-analysis-cli-action@latest  # Using the latest stable release
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           verbose: true
