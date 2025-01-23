@@ -17,7 +17,7 @@ jobs:
     permissions:
       contents: read  # for actions/checkout to fetch code
       actions: read   # required for private repositories
-    name: Codacy Security Scan
+    name: Codacy Scan
     runs-on: ubuntu-latest
     steps:
       # Checkout the repository to the GitHub Actions runner
