@@ -24,16 +24,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Remove SARIF files to avoid uncommitted changes issues
       - name: Remove SARIF files
         run: find . -name "*.sarif" -type f -delete
-      
+
+      # Get list of changed files in the PR
       - name: Get changed files
         id: changed-files
-        run: echo "CHANGED_FILES=$(git diff --name-only origin/main...HEAD)" >> $GITHUB_ENV
+        run: |
+          echo "CHANGED_FILES=$(git diff --name-only origin/main...HEAD | tr '\n' ' ')" >> $GITHUB_ENV
 
-      # Run Codacy Analysis CLI and generate a SARIF output with security issues
+      # Run Codacy Analysis CLI on changed files only
       - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@97bf5df3c09e75f5bcd72695998f96ebd701846e --files $CHANGED_FILES # Using the latest stable release commit sha
+        uses: codacy/codacy-analysis-cli-action@97bf5df3c09e75f5bcd72695998f96ebd701846e  # Using the latest stable release commit sha
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           verbose: true
@@ -41,6 +44,7 @@ jobs:
           format: sarif
           gh-code-scanning-compat: true
           max-allowed-issues: 2147483647
+          files: ${{ env.CHANGED_FILES }}
 
       # Save the SARIF report as an artifact for later download
       - name: Save SARIF results
@@ -48,3 +52,17 @@ jobs:
         with:
           name: codacy-security-report
           path: results.sarif
+
+      # Ignore unnecessary files to speed up the analysis
+      - name: Exclude unnecessary files
+        run: |
+          echo '**/node_modules/**' >> .codacy.yaml
+          echo '**/vendor/**' >> .codacy.yaml
+          echo '**/dist/**' >> .codacy.yaml
+          echo '**/*.md' >> .codacy.yaml
+          echo '**/*.log' >> .codacy.yaml
+          echo 'tests/' >> .codacy.yaml
+          echo 'docs/' >> .codacy.yaml
+          git add .codacy.yaml || true
+          git commit -m "Added exclusions for Codacy" || true
+          git push || true
