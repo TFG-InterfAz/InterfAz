@@ -26,10 +26,14 @@ jobs:
 
       - name: Remove SARIF files
         run: find . -name "*.sarif" -type f -delete
-        
+      
+      - name: Get changed files
+        id: changed-files
+        run: echo "CHANGED_FILES=$(git diff --name-only origin/main...HEAD)" >> $GITHUB_ENV
+
       # Run Codacy Analysis CLI and generate a SARIF output with security issues
       - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@97bf5df3c09e75f5bcd72695998f96ebd701846e  # Using the latest stable release commit sha
+        uses: codacy/codacy-analysis-cli-action@97bf5df3c09e75f5bcd72695998f96ebd701846e --files $CHANGED_FILES # Using the latest stable release commit sha
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           verbose: true
