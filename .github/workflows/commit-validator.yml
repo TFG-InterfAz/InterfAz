@@ -14,17 +14,16 @@ jobs:
 
       - name: Validate Commit Messages
         run: |
-          # Recorre los commits del push actual
           git log --oneline FETCH_HEAD | while read -r commit; do
-            # Extrae el mensaje ignorando el hash
+            # Extracting the message ignoring the hash
             message=$(echo "$commit" | sed 's/^[a-f0-9]* //')
             
-            # Excluir commit de fusión
+            # Excluding fusion's commit
             if [[ "$message" =~ ^Merge ]]; then
-              continue  # Saltar la validación si es un commit de fusión
+              continue
             fi
 
-            # Validar el mensaje
+            # Validating the message
             if [[ ! "$message" =~ ^(feat:|fix:|doc:)[[:space:]]+[A-Z] ]]; then
               echo "❌ Invalid commit message: $message"
               echo "Expected format: feat/fix/doc: \"Message\", where Message starts with an uppercase letter."

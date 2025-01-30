@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path
 from starcoder import views
 from ollama import views as v2
+from openai_integration import views as openai_view
+
 from .views import home
 
 urlpatterns = [
@@ -27,6 +29,8 @@ urlpatterns = [
     path('', home, name='home'),
     path('ask/ollama/', v2.ollama, name='ollama'),
     path('prompts/ollama', v2.prompts_list, name='prompts_list'),
+    path('ask/openai/', openai_view.openai, name='openai'),
+    path('prompts/openai', openai_view.prompts_list, name='show_openai_prompts'),
 
 
 ]
