@@ -30,8 +30,9 @@ Ensure you have the following installed:
 - Node.js (>= 14.x)
 - npm
 - PostgreSQL (for Django backend)
+- Ollama: https://ollama.com/
   
-### Configurate the DataBase
+### 1 Configurate the DataBase
 Enter in postgresql's bash:
 
 `cd "C:\Program Files\PostgreSQL\17\bin"`
@@ -55,7 +56,7 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON FUNCTIONS TO i
 ```
 
 
-### Backend Setup
+### 2 Backend Setup
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/ai-react-generator.git](https://github.com/TFG-InterfAz/InterfAz.git
@@ -63,7 +64,8 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON FUNCTIONS TO i
 2. Set up a virtual environment:
    ```bash
    python -m venv venv
-   source venv/bin/activate # On Windows: venv\Scripts\activate
+   source venv/bin/activate
+   # On Windows: venv\Scripts\activate
    ```
 3. Install dependencies:
    ```bash
@@ -77,8 +79,44 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON FUNCTIONS TO i
    ```bash
    python manage.py runserver
    ```
+#### 2.1 Starcoder Setup
+1. Log in using a token:
+   ```bash
+   huggingface-cli login
+   ```
+   token = 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
 
-### Frontend Setup
+#### 2.2 Ollama Setup
+1. Go to Ollama: https://ollama.com/ and download it
+2. Install Ollama
+3. Open any terminal and run:
+```bash
+ollama pull llama2
+```
+
+#### 2.2 Create virtual environment, install requirements, execute
+Using anaconda we isolate the development environment and handle dependencies.
+
+Open anaconda prompt and run:
+
+```bash
+conda create -n interfaz python=3.10.16
+conda env list
+```
+
+In vscode, CTRL+Shift+P and select: “Python: Select Interpreter”
+Choose the new interface
+Open a new terminal cmd in the workspace and check the use of interfaz. Execute:
+```bash
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+Navigating in `http://127.0.0.1:8000/`, you could check the web app.
+
+
+### 3 Frontend Setup
 1. Navigate to the `frontend` directory:
    ```bash
    cd frontend
