@@ -11,9 +11,8 @@ def openai(request):
         form = PromptForm(request.POST)
         if form.is_valid():
             prompt_instance = form.save(commit=False)
-            prompt_instance.ai = Prompt.AI.OPENAI  # Automatically set AI type to Ollama
+            prompt_instance.ai = Prompt.AI.OPENAI  
             
-            # Get the response from Ollama service
             prompt_instance.response = get_form_response(prompt_instance.request)
             
             prompt_instance.save()
