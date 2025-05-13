@@ -31,6 +31,8 @@ urlpatterns = [
     path('prompts/ollama', ollamaViews.prompts_list, name='prompts_list'),
     path('store_code', htmlViews.generate_html_view, name='generate_html'),
     path('generated/<int:html_id>/', htmlViews.show_generated_html, name='show_generated_html'),
+    path('get_all_html/', htmlViews.get_all_html, name='show_all_html'),
+
 
 
 

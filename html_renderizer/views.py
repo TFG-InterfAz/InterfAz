@@ -26,6 +26,11 @@ def generate_html_view(request):
     return render(request, "generate_code.html", {"form": form, "response": response, "response_id": response_id})
 
 
+def get_all_html(request):
+    html_list = Generated_Html.objects.all()
+    return render(request, "show_all_html.html", {"data": html_list})
+
+
 def show_generated_html(request, html_id):
     # Retrieve the saved HTML using its ID
     try:
