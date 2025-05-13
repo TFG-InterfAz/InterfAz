@@ -12,6 +12,8 @@ class Generated_Html(models.Model):
         OLLAMA = "OL",  _("Ollama")
         OPENAI = "OP",  _("OPENAI")
         DEEPSEEK = "DK",  _("DeepSeek")
+        CURSOR = "CS",  _("Cursor")
+        CLAUDE = "CE",  _("Claude")
         UNKNOWN = "UN",  _("Unknown")
 
     

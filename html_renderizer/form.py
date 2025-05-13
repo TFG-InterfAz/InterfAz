@@ -23,5 +23,3 @@ class Generated_Html_Form(forms.ModelForm):
             'ai': forms.Select(attrs={'class': 'form-control'}),
         }
 
-    # Manually set the AI choices from the model (this ensures consistency)
-    ai = forms.ChoiceField(choices=Generated_Html.AI_selector.choices, widget=forms.Select(attrs={'class': 'form-control'}))
