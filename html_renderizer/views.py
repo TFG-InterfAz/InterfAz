@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .form import Generated_Html_Form
 from .models import Generated_Html
+import bleach
 
 # Create your views here.
 # views.py
@@ -35,6 +36,8 @@ def show_generated_html(request, html_id):
     # Retrieve the saved HTML using its ID
     try:
         html_instance = Generated_Html.objects.get(id=html_id)
-        return render(request, "display_html.html", {"html_code": html_instance.html_code})
+        allowed_tags = ['p', 'b', 'i', 'u', 'ul', 'ol', 'li', 'br', 'div', 'h1', 'h2', 'form', 'input', 'label', 'style']
+        cleaned_html = bleach.clean(html_instance.html_code, tags=allowed_tags, strip=True)
+        return render(request, "display_html.html", {"html_code": cleaned_html})
     except Generated_Html.DoesNotExist:
         return render(request, "404.html")
