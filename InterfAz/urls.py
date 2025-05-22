@@ -32,6 +32,10 @@ urlpatterns = [
     path('store_code', htmlViews.generate_html_view, name='generate_html'),
     path('generated/<int:html_id>/', htmlViews.show_generated_html, name='show_generated_html'),
     path('get_all_html/', htmlViews.get_all_html, name='show_all_html'),
+    path('modify_html/<int:html_id>/', htmlViews.modify_html, name='modify_html'),
+    path('delete_html/<int:html_id>/', htmlViews.delete_html, name='delete_html'),
+
+
 
 
 

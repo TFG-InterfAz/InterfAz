@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from .form import Generated_Html_Form
 from .models import Generated_Html
 import bleach
@@ -41,3 +41,29 @@ def show_generated_html(request, html_id):
         return render(request, "display_html.html", {"html_code": cleaned_html})
     except Generated_Html.DoesNotExist:
         return render(request, "404.html")
+    
+
+def modify_html(request, html_id):
+     
+    html = get_object_or_404(Generated_Html, id=html_id)
+
+    if request.method == 'POST':
+        form = Generated_Html_Form(request.POST, instance=html)
+        if form.is_valid():
+            form.save()
+            return redirect('show_all_html')  
+    else:
+        form = Generated_Html_Form(instance=html)
+        
+    return render(request, 'modify_html.html', {'form': form})
+
+
+def delete_html(request, html_id):
+     
+    html_instance = get_object_or_404(Generated_Html, id=html_id)
+    
+    if request.method == "POST":
+        html_instance.delete()
+        return redirect('show_all_html')  # Redirige a la lista después de borrar
+
+    return render(request, "delete.html", {"html": html_instance})

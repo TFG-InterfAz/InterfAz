@@ -15,6 +15,9 @@
                     <th>Title</th>
                     <th>prompt</th>
                     <th>model</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -29,6 +32,15 @@
                             Renderize Html
                         </a>
                     </td>
+                    <td>
+                        <a href="{% url 'modify_html' html_id=prompt.id %}" class="btn btn-outline-primary btn-sm">Modify HTML</a>
+
+                    </td>
+                    <td>
+                        <a href="{% url 'delete_html' html_id=prompt.id %}" class="btn btn-outline-primary btn-sm">Delete HTML</a>
+
+                    </td>
+
                 </tr>
                 {% endfor %}
             </tbody>
