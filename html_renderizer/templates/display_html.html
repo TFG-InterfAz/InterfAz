@@ -1,15 +1,23 @@
-<!-- display_html.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generated HTML Preview</title>
-</head>
-<body>
-    <!-- Render the user's HTML content here -->
-    <div class="generated-html-content">
-        {{ html_code|safe }}
-    </div>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block titulo %}Generated HTML Preview{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">HTML</h2>
+
+<iframe id="generated-frame" style="width: 100%; height: 600px; border: 1px solid #ccc;"></iframe>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const htmlContent = `{{ html_code|escapejs }}`;  // escapa comillas correctamente
+    const iframe = document.getElementById("generated-frame");
+
+    if (iframe && iframe.contentDocument) {
+      iframe.contentDocument.open();
+      iframe.contentDocument.write(htmlContent);
+      iframe.contentDocument.close();
+    }
+  });
+</script>
+{% endblock %}
+
