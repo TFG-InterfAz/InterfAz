@@ -9,7 +9,7 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const htmlContent = `{{ html_code|escapejs }}`;  // escapa comillas correctamente
+    const htmlContent = `{{ html_code|safe }}`;  // escapa comillas correctamente
     const iframe = document.getElementById("generated-frame");
 
     if (iframe && iframe.contentDocument) {
