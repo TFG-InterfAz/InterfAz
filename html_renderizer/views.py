@@ -1,6 +1,8 @@
 from django.shortcuts import render,get_object_or_404
 from .form import Generated_Html_Form
 from .models import Generated_Html
+from django.db.models import Q
+
 import bleach
 
 # Create your views here.
@@ -28,8 +30,26 @@ def generate_html_view(request):
 
 
 def get_all_html(request):
-    html_list = Generated_Html.objects.all()
-    return render(request, "show_all_html.html", {"data": html_list})
+    query    = request.GET.get('q', '')
+    ai_filter= request.GET.get('ai', '')
+
+    qs = Generated_Html.objects.all()
+
+    if query:
+        qs = qs.filter(
+            Q(title__icontains=query) |
+            Q(prompt__icontains=query)
+        )
+
+    if ai_filter:
+        qs = qs.filter(ai=ai_filter)
+
+    return render(request, "show_all_html.html", {
+        "data":       qs.distinct(),
+        "query":      query,
+        "ai_filter":  ai_filter,
+        "ai_choices": Generated_Html.AI_selector.choices,
+    })
 
 
 def show_generated_html(request, html_id):
@@ -37,7 +57,8 @@ def show_generated_html(request, html_id):
     try:
         html_instance = Generated_Html.objects.get(id=html_id)
         allowed_tags = ['html', 'head', 'title', 'meta', 'body', 'style','form', 'input', 'label', 'select', 'option', 'button',
-    'table', 'thead', 'tbody', 'tr', 'th', 'td','div', 'span', 'p', 'b', 'i', 'u', 'br', 'h1', 'h2']
+        'table', 'thead', 'tbody', 'tr', 'th', 'td','div', 'span', 'p', 'b', 'i', 'u', 'br', 'h1', 'h2','nav', 'header','section', 
+        'article', 'main', 'aside', 'footer']
         allowed_attrs = {'*': ['class', 'id', 'name', 'type', 'value', 'placeholder', 'style']
 }
         cleaned_html = bleach.clean(html_instance.html_code, tags=allowed_tags,attributes=allowed_attrs, strip=True)
