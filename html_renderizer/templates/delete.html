@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block titulo %}Confirm Delete{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3>Are you sure you want to delete this entry?</h3>
+    <p><strong>Title:</strong> {{ html.title }}</p>
+    <p><strong>Prompt:</strong> {{ html.prompt }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'show_all_html' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

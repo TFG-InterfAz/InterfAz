@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'starcoder',
     'ollama',
     'openai_integration',
+    'html_renderizer',
 ]
 
 MIDDLEWARE = [

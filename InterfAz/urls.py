@@ -17,8 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from starcoder import views
-from ollama import views as v2
 from openai_integration import views as openai_view
+from ollama import views as ollamaViews
+from html_renderizer import views as htmlViews
 
 from .views import home
 
@@ -27,10 +28,18 @@ urlpatterns = [
     path("ask/starcoder", views.prompt_view, name="prompt_view"),
     path('prompts/starcoder', views.show_prompts, name='show_prompts'),
     path('', home, name='home'),
-    path('ask/ollama/', v2.ollama, name='ollama'),
-    path('prompts/ollama', v2.prompts_list, name='prompts_list'),
+    path('ask/ollama/', ollamaViews.ollama, name='ollama'),
+    path('prompts/ollama', ollamaViews.prompts_list, name='prompts_list'),
+    path('store_code', htmlViews.generate_html_view, name='generate_html'),
+    path('generated/<int:html_id>/', htmlViews.show_generated_html, name='show_generated_html'),
+    path('get_all_html/', htmlViews.get_all_html, name='show_all_html'),
+    path('modify_html/<int:html_id>/', htmlViews.modify_html, name='modify_html'),
+    path('delete_html/<int:html_id>/', htmlViews.delete_html, name='delete_html'),
     path('ask/openai/', openai_view.openai, name='openai'),
     path('prompts/openai', openai_view.prompts_list, name='show_openai_prompts'),
+
+
+
 
 
 ]
