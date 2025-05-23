@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'trial',
     'starcoder',
     'ollama',
+    'html_renderizer',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +82,7 @@ WSGI_APPLICATION = 'InterfAz.wsgi.application'
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'interfaz',
+        'NAME': 'interfaz_db',
         'USER': 'interfaz_user',
         'PASSWORD': 'interfaz_password',
         'HOST': 'localhost',
