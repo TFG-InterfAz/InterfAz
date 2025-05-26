@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'InterfAz.wsgi.application'
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'interfaz_db',
+        'NAME': 'interfaz',
         'USER': 'interfaz_user',
         'PASSWORD': 'interfaz_password',
         'HOST': 'localhost',
