@@ -5,23 +5,30 @@
 {% block content %}
 <h2 class="mb-4">HTML</h2>
 
-<iframe id="generated-frame" style="width: 100%; height: 700px; border: 1px solid #ccc;"></iframe>
+<iframe
+  srcdoc="{{ html_code|escape }}"
+  sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+  style="width: 100%; height: 1000px; border: 1px solid #ccc;">
+</iframe>
+
+<!-- HTML inyectado como texto -->
+<script type="text/template" id="rendered-html">
+{{ html_code|safe }}
+</script>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const htmlContent = "{{ html_code|escapejs }}";
-    const iframe = document.getElementById("generated-frame");
+    const iframe = document.getElementById("render-frame");
+    const htmlContent = document.getElementById("rendered-html").textContent;
 
-    if (iframe && iframe.contentDocument) {
-      const doc = iframe.contentDocument || iframe.contentWindow.document;
-      doc.open();
-      doc.write(htmlContent);
-      doc.close();
-    }
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    doc.open();
+    doc.write(htmlContent);
+    doc.close();
   });
 </script>
 
 <p class="text-muted mt-3">
-  The content above is rendered inside an <code>iframe</code> and allows JavaScript execution using <code>document.write</code>.
+  Rendered safely using <code>document.write</code> from a <code>&lt;script type="text/template"&gt;</code> block.
 </p>
 {% endblock %}
