@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block titulo %}Starcoder's Prompts{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Stored Queries and Responses</h1>
+    <form method="get" class="mb-4">
+        <div class="row g-3 align-items-center">
+            <div class="col-auto">
+                <input type="text" name="q" value="{{ query }}" class="form-control"
+                       placeholder="Search by title or prompt">
+            </div>
+            <div class="col-auto">
+                <select name="ai" class="form-select">
+                    <option value="">All Models</option>
+                    {% for code, name in ai_choices %}
+                        <option value="{{ code }}" {% if ai_filter == code %}selected{% endif %}>
+                            {{ name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+        </div>
+    </form>
+
+    {% if data %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Prompt</th>
+                    <th>Model</th>
+                    <th></th><th></th><th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prompt in data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ prompt.title }}</td>
+                    <td>{{ prompt.prompt|default:"No response available" }}</td>
+                    <td>{{ prompt.ai }}</td>
+                    <td>
+                        <a href="{% url 'show_generated_html' html_id=prompt.id %}"
+                           class="btn btn-outline-primary btn-sm">Renderize Html</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'modify_html' html_id=prompt.id %}"
+                           class="btn btn-outline-primary btn-sm">Modify HTML</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'delete_html' html_id=prompt.id %}"
+                           class="btn btn-outline-danger btn-sm">Delete HTML</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center">
+        <p>No prompts available.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

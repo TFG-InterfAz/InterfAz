@@ -1,1 +1,6 @@
 myvenv/
+venv/
+InterfAz/settings.py
+*.sarif
+__pycache__/
+*.pyc

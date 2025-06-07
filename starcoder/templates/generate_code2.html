@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block titulo %}Ask the AI{% endblock %}
+
+{% block content %}
+<div class="dashboard-content">
+    <div class="container ask-ai-container">
+        <h1>Ask the AI</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group w-100">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        {% if response %}
+        <div class="ask-ai-response">
+            <h2>AI Response:</h2>
+            <pre>{{ response }}</pre>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
