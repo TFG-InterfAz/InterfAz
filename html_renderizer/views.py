@@ -13,10 +13,6 @@ from .models import Generated_Html
 import re
 
 def normalize_inline_scripts(html_code):
-    """
-    Detecta scripts que usan DOMContentLoaded y los reemplaza por funciones autoejecutadas (IIFE),
-    para que funcionen correctamente al ser inyectados en un iframe con document.write().
-    """
     pattern = re.compile(
         r"""<script>\s*document\.addEventListener\(\s*['"]DOMContentLoaded['"]\s*,\s*function\s*\(\)\s*\{(.*?)\}\s*\);?\s*</script>""",
         re.DOTALL
@@ -84,10 +80,10 @@ def show_generated_html(request, html_id):
         allowed_tags = [
             'html', 'head', 'title', 'meta', 'body', 'style', 'form', 'input', 'label', 'select', 'option', 'button',
             'table', 'thead', 'tbody', 'tr', 'th', 'td', 'div', 'span', 'p', 'b', 'i', 'u', 'br', 'h1', 'h2',
-            'nav', 'header', 'section', 'article', 'main', 'aside', 'footer', 'textarea'
+            'nav', 'header', 'section', 'article', 'main', 'aside', 'footer', 'textarea', 'script', 'li', 'ul'
         ]
         allowed_attrs = {
-            '*': ['class', 'id', 'name', 'type', 'value', 'placeholder', 'style']
+            '*': ['class', 'id', 'name', 'type', 'value', 'placeholder', 'style', 'data-text']
         }
 
         html_cleaned = bleach.clean(html_without_scripts, tags=allowed_tags, attributes=allowed_attrs, strip=True)
