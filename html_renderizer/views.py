@@ -80,10 +80,15 @@ def show_generated_html(request, html_id):
         allowed_tags = [
             'html', 'head', 'title', 'meta', 'body', 'style', 'form', 'input', 'label', 'select', 'option', 'button',
             'table', 'thead', 'tbody', 'tr', 'th', 'td', 'div', 'span', 'p', 'b', 'i', 'u', 'br', 'h1', 'h2',
-            'nav', 'header', 'section', 'article', 'main', 'aside', 'footer', 'textarea', 'script', 'li', 'ul'
+            'nav', 'header', 'section', 'article', 'main', 'aside', 'footer', 'textarea', 'script', 'li', 'ul', 'a', 'href', 'svg', 'polyline',
+            'line', 'circle', 'text', 'canvas'
         ]
         allowed_attrs = {
-            '*': ['class', 'id', 'name', 'type', 'value', 'placeholder', 'style', 'data-text']
+        '*': [
+        'class', 'id', 'name', 'type', 'value', 'placeholder', 'style', 'data-text',
+        'x', 'y', 'cx', 'cy', 'r', 'width', 'height', 'viewBox',
+        'stroke', 'stroke-width', 'fill', 'points', 'transform', 'text-anchor'
+        ]
         }
 
         html_cleaned = bleach.clean(html_without_scripts, tags=allowed_tags, attributes=allowed_attrs, strip=True)
