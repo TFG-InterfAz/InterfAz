@@ -48,7 +48,7 @@ jobs:
 
       # Save the SARIF report as an artifact for later download
       - name: Save SARIF results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: codacy-security-report
           path: results.sarif
