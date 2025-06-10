@@ -2,6 +2,9 @@
 myvenv/
 venv/
 
+InterfAz/settings.py
+*.sarif
+
 # Archivos bytecode de Python
 __pycache__/
 *.py[cod]
@@ -43,7 +46,5 @@ dist/
 *.egg-info/
 
 
-
-
-
-
+# Configuración local
+.env
