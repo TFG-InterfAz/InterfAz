@@ -2,9 +2,6 @@
 myvenv/
 venv/
 
-InterfAz/settings.py
-*.sarif
-
 # Archivos bytecode de Python
 __pycache__/
 *.py[cod]
@@ -45,9 +42,8 @@ build/
 dist/
 *.egg-info/
 
-# Django static files (si generas con collectstatic)
-staticfiles/
-static/
 
-# Configuración local
-.env
+
+
+
+
