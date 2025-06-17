@@ -5,6 +5,45 @@
 {% block content %}
 <h2 class="mb-4">HTML</h2>
 
+<iframe
+  id="render-frame"
+  sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+  style="width: 100%; height: 1000px; border: 1px solid #ccc;">
+</iframe>
+
+<!-- Inyección segura desde script con tipo personalizado -->
+<script type="text/template" id="rendered-html">
+{{ html_code|safe }}
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const iframe = document.getElementById("render-frame");
+    const rawHtml = document.getElementById("rendered-html").textContent;
+
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    doc.open();
+    doc.write(rawHtml);
+    doc.close();
+
+    // Reinserta los scripts para que se ejecuten
+    const scripts = doc.querySelectorAll("script");
+    scripts.forEach((oldScript) => {
+      const newScript = doc.createElement("script");
+      if (oldScript.src) {
+        newScript.src = oldScript.src;
+      } else {
+        newScript.textContent = oldScript.textContent;
+      }
+      oldScript.replaceWith(newScript);
+    });
+  });
+</script>
+
+<p class="text-muted mt-3">
+  Rendered with full JS execution inside <code>iframe</code> using <code>script re-injection</code> technique.
+</p>
+{% endblock %}
 <iframe id="generated-frame" style="width: 100%; height: 700px; border: 1px solid #ccc;"></iframe>
 
 <script>

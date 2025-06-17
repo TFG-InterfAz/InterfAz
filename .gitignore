@@ -1,6 +1,52 @@
+# Entornos virtuales
 myvenv/
 venv/
+
 InterfAz/settings.py
 *.sarif
+
+# Archivos bytecode de Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Archivos temporales de sistema
+*.log
+*.pot
+*.mo
+*.swp
+*.swo
+*.bak
+*.tmp
+*~
+
+# Archivos de configuración de IDE
+.vscode/
+.idea/
+
+# Archivos de SQLite (si usas sqlite como base de datos local)
+db.sqlite3
+
+# Archivos de migraciones (opcional: comenta si deseas mantenerlos)
+**/migrations/*.pyc
+**/migrations/__pycache__/
+# **/migrations/  <-- descomenta si también quieres ignorar los .py de migraciones
+
+# Archivos de coverage y testing
+.coverage
+htmlcov/
+coverage.xml
+nosetests.xml
+test-results.xml
+junit.xml
+
+# Archivos de compilación
+build/
+dist/
+*.egg-info/
+
+
+# Configuración local
+.env
 __pycache__/
 *.pyc
