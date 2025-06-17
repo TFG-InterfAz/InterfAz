@@ -43,6 +43,48 @@ def generate_html_view(request):
     return render(request, "generate_code.html", {"form": form, "response": response, "response_id": response_id})
 
 
+def show_generated_html(request, html_id):
+    try:
+        html_instance = Generated_Html.objects.get(id=html_id)
+        original_html = html_instance.html_code
+
+        # 1. Extraer y eliminar scripts antes de limpiar
+        script_pattern = re.compile(r"<script.*?>.*?</script>", re.DOTALL | re.IGNORECASE)
+        script_blocks = script_pattern.findall(original_html)
+        html_without_scripts = script_pattern.sub('', original_html)
+
+        # 2. Limpiar el HTML sin scripts
+        allowed_tags = [
+            'html', 'head', 'title', 'meta', 'body', 'style', 'form', 'input', 'label', 'select', 'option', 'button',
+            'table', 'thead', 'tbody', 'tr', 'th', 'td', 'div', 'span', 'p', 'b', 'i', 'u', 'br', 'h1', 'h2',
+            'nav', 'header', 'section', 'article', 'main', 'aside', 'footer', 'textarea', 'script', 'li', 'ul', 'a',
+            'svg', 'polyline', 'line', 'circle', 'text', 'canvas'
+        ]
+        allowed_attrs = {
+            '*': [
+                'class', 'id', 'name', 'type', 'value', 'placeholder', 'style', 'data-text',
+                'x', 'y', 'cx', 'cy', 'r', 'width', 'height', 'viewBox',
+                'stroke', 'stroke-width', 'fill', 'points', 'transform', 'text-anchor'
+            ]
+        }
+
+        html_cleaned = bleach.clean(
+            html_without_scripts,
+            tags=allowed_tags,
+            attributes=allowed_attrs,
+            strip=True
+        )
+
+        # 3. Normalizar y reinyectar los scripts al final
+        scripts_normalized = [normalize_inline_scripts(script) for script in script_blocks]
+        html_final = html_cleaned + "\n" + "\n".join(scripts_normalized)
+
+        return render(request, "display_html.html", {"html_code": html_final})
+
+    except Generated_Html.DoesNotExist:
+        return render(request, "404.html")
+    
+    
 def get_all_html(request):
     query    = request.GET.get('q', '')
     ai_filter= request.GET.get('ai', '')
@@ -64,50 +106,6 @@ def get_all_html(request):
         "ai_filter":  ai_filter,
         "ai_choices": Generated_Html.AI_selector.choices,
     })
-
-
-def show_generated_html(request, html_id):
-    try:
-        html_instance = Generated_Html.objects.get(id=html_id)
-        original_html = html_instance.html_code
-
-        # 1. Extraer y eliminar scripts antes de limpiar
-        script_pattern = re.compile(r"<script.*?>.*?</script>", re.DOTALL | re.IGNORECASE)
-        script_blocks = script_pattern.findall(original_html)
-        html_without_scripts = script_pattern.sub('', original_html)  # ✅ USAR ESTO para bleach
-
-        # 2. Limpiar el HTML sin scripts
-        allowed_tags = [
-            'html', 'head', 'title', 'meta', 'body', 'style', 'form', 'input', 'label', 'select', 'option', 'button',
-            'table', 'thead', 'tbody', 'tr', 'th', 'td', 'div', 'span', 'p', 'b', 'i', 'u', 'br', 'h1', 'h2',
-            'nav', 'header', 'section', 'article', 'main', 'aside', 'footer', 'textarea', 'script', 'li', 'ul', 'a', 'href', 'svg', 'polyline',
-            'line', 'circle', 'text', 'canvas'
-        ]
-        allowed_attrs = {
-        '*': [
-        'class', 'id', 'name', 'type', 'value', 'placeholder', 'style', 'data-text',
-        'x', 'y', 'cx', 'cy', 'r', 'width', 'height', 'viewBox',
-        'stroke', 'stroke-width', 'fill', 'points', 'transform', 'text-anchor'
-        ]
-        }
-
-        html_cleaned = bleach.clean(html_without_scripts, tags=allowed_tags, attributes=allowed_attrs, strip=True)
-
-        # 3. Normalizar y reinyectar los scripts al final
-        scripts_normalized = [normalize_inline_scripts(script) for script in script_blocks]
-        html_final = html_cleaned + "\n" + "\n".join(scripts_normalized)
-
-        return render(request, "display_html.html", {"html_code": html_final})
-
-        allowed_tags = ['html', 'head', 'title', 'meta', 'body', 'style','form', 'input', 'label', 'select', 'option', 'button',
-        'table', 'thead', 'tbody', 'tr', 'th', 'td','div', 'span', 'p', 'b', 'i', 'u', 'br', 'h1', 'h2','nav', 'header','section', 
-        'article', 'main', 'aside', 'footer', 'script']
-        allowed_attrs = {'*': ['class', 'id', 'name', 'type', 'value', 'placeholder', 'style']
-}
-        cleaned_html = bleach.clean(html_instance.html_code, tags=allowed_tags,attributes=allowed_attrs, strip=True)
-        return render(request, "display_html.html", {"html_code": cleaned_html})
-    except Generated_Html.DoesNotExist:
-        return render(request, "404.html")
 
 
     
