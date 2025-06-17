@@ -99,6 +99,13 @@ def show_generated_html(request, html_id):
 
         return render(request, "display_html.html", {"html_code": html_final})
 
+        allowed_tags = ['html', 'head', 'title', 'meta', 'body', 'style','form', 'input', 'label', 'select', 'option', 'button',
+        'table', 'thead', 'tbody', 'tr', 'th', 'td','div', 'span', 'p', 'b', 'i', 'u', 'br', 'h1', 'h2','nav', 'header','section', 
+        'article', 'main', 'aside', 'footer', 'script']
+        allowed_attrs = {'*': ['class', 'id', 'name', 'type', 'value', 'placeholder', 'style']
+}
+        cleaned_html = bleach.clean(html_instance.html_code, tags=allowed_tags,attributes=allowed_attrs, strip=True)
+        return render(request, "display_html.html", {"html_code": cleaned_html})
     except Generated_Html.DoesNotExist:
         return render(request, "404.html")
 

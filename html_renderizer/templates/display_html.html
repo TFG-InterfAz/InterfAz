@@ -44,3 +44,19 @@
   Rendered with full JS execution inside <code>iframe</code> using <code>script re-injection</code> technique.
 </p>
 {% endblock %}
+<iframe id="generated-frame" style="width: 100%; height: 700px; border: 1px solid #ccc;"></iframe>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const htmlContent = "{{ html_code|escapejs }}";
+    const iframe = document.getElementById("generated-frame");
+
+    if (iframe && iframe.contentDocument) {
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      doc.open();
+      doc.write(htmlContent);
+      doc.close();
+    }
+  });
+</script>
+{% endblock %}

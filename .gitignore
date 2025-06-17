@@ -48,3 +48,5 @@ dist/
 
 # Configuración local
 .env
+__pycache__/
+*.pyc
