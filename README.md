@@ -31,6 +31,28 @@ Ensure you have the following installed:
 - npm
 - PostgreSQL (for Django backend)
 - Ollama: https://ollama.com/
+
+### Hardware
+Ensure your PC can handle llama2:
+
+1.**GPU (Recommended for Faster Inference):**
+ - Minimum: NVIDIA GTX 1660 Ti (6GB VRAM) with 4-bit quantization
+ - Recommended: RTX 3060 (12GB VRAM) or better
+   
+2.**CPU (If running without GPU):**
+ - Minimum: 6-core CPU (e.g., Intel Core i7-10750H or better)
+ - Recommended: 8-core or higher (e.g., AMD Ryzen 7 5800H)
+   
+3.**RAM:**
+ - Minimum: 16GB
+ - Recommended: 32GB for better performance
+   
+4.**Storage:**
+ - Minimum: 30GB SSD (for model weights)
+ - Recommended: NVMe SSD for faster loading
+   
+5.**OS:**
+ - Linux or Windows 10/11 with WSL (if needed for compatibility)
   
 ### 1 Configurate the DataBase
 Enter in postgresql's bash:
