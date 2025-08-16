@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'trial',
     'starcoder',
     'ollama',
+    'openai_integration',
     'html_renderizer',
 ]
 

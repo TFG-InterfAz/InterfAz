@@ -9,6 +9,7 @@ class Prompt(models.Model):
     class AI(models.TextChoices):
         STARCODER = "SC", _("StarCoder")
         OLLAMA = "OL", _("Ollama")
+        OPENAI = "OA", _("OpenAI")
         UNKNOWN = "AI", _("Unknown")
     
     ai = models.CharField(max_length=2, 

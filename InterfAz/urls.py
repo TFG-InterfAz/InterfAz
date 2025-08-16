@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from starcoder import views
+from openai_integration import views as openai_view
 from ollama import views as ollamaViews
 from html_renderizer import views as htmlViews
 
@@ -34,7 +35,8 @@ urlpatterns = [
     path('get_all_html/', htmlViews.get_all_html, name='show_all_html'),
     path('modify_html/<int:html_id>/', htmlViews.modify_html, name='modify_html'),
     path('delete_html/<int:html_id>/', htmlViews.delete_html, name='delete_html'),
-
+    path('ask/openai/', openai_view.openai, name='openai'),
+    path('prompts/openai', openai_view.prompts_list, name='show_openai_prompts'),
 
 
 
